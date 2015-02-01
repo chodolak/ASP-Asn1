@@ -85,27 +85,31 @@ public partial class _Default : System.Web.UI.Page
             {
                 foreach (string dataItem in dataLine.Split(' '))
                 {
-                    foreach (string searchItems in SearchBox.Text.Split(' '))
+                    if (SearchBox.Text != String.Empty)
                     {
-                        if (Ignore_Words(searchItems))
+                        foreach (string searchItems in SearchBox.Text.Split(' '))
                         {
-                            if ((myComp.Compare(dataItem, searchItems, CompareOptions.IgnoreCase | CompareOptions.IgnoreSymbols)) == 0)
+                            if (Ignore_Words(searchItems))
                             {
-                                filesList.Add(fileNames[i]);
-                                picked = 1;
-                            }
+                                if ((myComp.Compare(dataItem, searchItems, CompareOptions.IgnoreCase | CompareOptions.IgnoreSymbols)) == 0)
+                                {
+                                    filesList.Add(fileNames[i]);
+                                    picked = 1;
+                                }
 
-                            if (picked == 1)
-                            {
-                                break;
+                                if (picked == 1)
+                                {
+                                    break;
+                                }
                             }
                         }
-                    }
 
-                    if (picked == 1)
-                    {
-                        break;
+                        if (picked == 1)
+                        {
+                            break;
+                        }
                     }
+                    
                 }
                 if (picked == 1)
                 {
@@ -271,9 +275,13 @@ public partial class _Default : System.Web.UI.Page
     {
         List<String> files = new List<String>();
         files = Search_Files();
-        string filename = files[(int)Session["currentID"]];
-        string filepath = "~/Files/" + filename;
-        Download_File(filename, filepath);
+        if ((int)Session["currentID"] != 0)
+        {
+            string filename = files[(int)Session["currentID"]];
+            string filepath = "~/Files/" + filename;
+            Download_File(filename, filepath);
+        }
+        
     }
 
     public static void Download_File(string sFileName, string sFilePath)
