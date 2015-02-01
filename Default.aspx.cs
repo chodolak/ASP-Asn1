@@ -272,7 +272,7 @@ public partial class _Default : System.Web.UI.Page
     {
         List<String> files = new List<String>();
         files = Search_Files();
-        if ((int)Session["currentID"] != 0)
+        if ((int)Session["fileSize"] != 0)
         {
             string filename = files[(int)Session["currentID"]];
             string filepath = "~/Files/" + filename;
