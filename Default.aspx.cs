@@ -85,30 +85,27 @@ public partial class _Default : System.Web.UI.Page
             {
                 foreach (string dataItem in dataLine.Split(' '))
                 {
-                    if (SearchBox.Text != String.Empty)
-                    {
-                        foreach (string searchItems in SearchBox.Text.Split(' '))
-                        {
-                            if (Ignore_Words(searchItems))
-                            {
-                                if ((myComp.Compare(dataItem, searchItems, CompareOptions.IgnoreCase | CompareOptions.IgnoreSymbols)) == 0)
-                                {
-                                    filesList.Add(fileNames[i]);
-                                    picked = 1;
-                                }
+					foreach (string searchItems in SearchBox.Text.Split(' '))
+					{
+						if (Ignore_Words(searchItems))
+						{
+							if ((myComp.Compare(dataItem, searchItems, CompareOptions.IgnoreCase | CompareOptions.IgnoreSymbols)) == 0)
+							{
+								filesList.Add(fileNames[i]);
+								picked = 1;
+							}
 
-                                if (picked == 1)
-                                {
-                                    break;
-                                }
-                            }
-                        }
+							if (picked == 1)
+							{
+								break;
+							}
+						}
+					}
 
-                        if (picked == 1)
-                        {
-                            break;
-                        }
-                    }
+					if (picked == 1)
+					{
+						break;
+					}
                     
                 }
                 if (picked == 1)
