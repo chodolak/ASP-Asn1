@@ -27,6 +27,18 @@ public partial class _Default : System.Web.UI.Page
         Session["fileSize"] = 0;
         Session["currentID"] = 0;
         Display_Text(0);
+
+        // Disable both Prev and First
+        First.CssClass = "btn disabled";
+        First.Enabled = false;
+        Prev.CssClass = "btn disabled";
+        Prev.Enabled = false;
+
+        // Re-enable Next and Last buttons
+        Next.CssClass = "btn";
+        Next.Enabled = true;
+        Last.CssClass = "btn";
+        Last.Enabled = true;
     }
 
     private String Read_File(String file_name)
@@ -34,9 +46,9 @@ public partial class _Default : System.Web.UI.Page
         String text = "";
         var dataFile = Server.MapPath("~/Files/" + file_name);
         Array userData = File.ReadAllLines(dataFile);
-        foreach (string dataLine in userData) 
+        foreach (string dataLine in userData)
         {
-            
+
             text += dataLine;
             text += "<br/>";
         }
@@ -108,19 +120,19 @@ public partial class _Default : System.Web.UI.Page
 
     private void Display_Text(int id)
     {
-        
+
         filesList = Search_Files();
         int s = List_Size();
         if (s == 0)
         {
             Text.Text = "No files have the search items.";
             Title.Text = "";
-            SearchCount.Text = "0 of 0";
+            SearchCount.Text = "Result 0 of 0";
         }
         else
         {
             String t = Read_File(filesList[id]);
-            String i = (id + 1).ToString() + " of " + s.ToString();
+            String i = "Result " + (id + 1).ToString() + " of " + s.ToString();
             Text.Text = t;
             Title.Text = filesList[id];
             SearchCount.Text = i;
@@ -159,23 +171,95 @@ public partial class _Default : System.Web.UI.Page
         }
     }
 
-    protected void Prev_Click(object sender, EventArgs e)
+
+    protected void First_Click(object sender, EventArgs e)
     {
         if ((int)Session["currentID"] != 0)
         {
-            Session["currentID"] = (int)Session["currentID"] - 1;
+            Session["currentID"] = 0;
             Display_Text((int)Session["currentID"]);
+
+            // Re-enable Next and Last buttons
+            Next.CssClass = "btn";
+            Next.Enabled = true;
+            Last.CssClass = "btn";
+            Last.Enabled = true;
+
+            // Disable both Prev and First
+            First.CssClass = "btn disabled";
+            First.Enabled = false;
+            Prev.CssClass = "btn disabled";
+            Prev.Enabled = false;
+        }
+    }
+
+    protected void Prev_Click(object sender, EventArgs e)
+    {
+        if ((int) Session["currentID"] != 0)
+        {
+            if ((int)Session["currentID"] == 1)
+            {
+                // Disable both Prev and First
+                First.CssClass = "btn disabled";
+                First.Enabled = false;
+                Prev.CssClass = "btn disabled";
+                Prev.Enabled = false;
+            }
+
+            Session["currentID"] = (int) Session["currentID"] - 1;
+            Display_Text((int)Session["currentID"]);
+
+            // Re-enable Next and Last buttons
+            Next.CssClass = "btn";
+            Next.Enabled = true;
+            Last.CssClass = "btn";
+            Last.Enabled = true;
         }
     }
 
     protected void Next_Click(object sender, EventArgs e)
     {
-        if ((int)Session["currentID"] != (int)Session["fileSize"]-1)
+        if ((int) Session["currentID"] != (int) Session["fileSize"] - 1)
         {
-            Session["currentID"] = (int)Session["currentID"] + 1;
-            Display_Text((int)Session["currentID"]);
+            Session["currentID"] = (int) Session["currentID"] + 1;
+            Display_Text((int) Session["currentID"]);
+
+            // Re-enable Previous and First buttons
+            First.CssClass = "btn";
+            First.Enabled = true;
+            Prev.CssClass = "btn";
+            Prev.Enabled = true;
+
+            if ((int)Session["currentID"] == (int)Session["fileSize"] - 1)
+            {
+                // Disable both Next and Last
+                Next.CssClass = "btn disabled";
+                Next.Enabled = false;
+                Last.CssClass = "btn disabled";
+                Last.Enabled = false;
+            }
         }
-        
+    }
+
+    protected void Last_Click(object sender, EventArgs e)
+    {
+        if ((int)Session["currentID"] != (int)Session["fileSize"] - 1)
+        {
+            Session["currentID"] = (int)Session["fileSize"] - 1;
+            Display_Text((int)Session["currentID"]);
+
+            // Re-enable Previous and First buttons
+            First.CssClass = "btn";
+            First.Enabled = true;
+            Prev.CssClass = "btn";
+            Prev.Enabled = true;
+
+            // Disable both Next and Last
+            Next.CssClass = "btn disabled";
+            Next.Enabled = false;
+            Last.CssClass = "btn disabled";
+            Last.Enabled = false;
+        }
     }
 
     protected void printButton_Click(object sender, EventArgs e)
@@ -189,7 +273,7 @@ public partial class _Default : System.Web.UI.Page
         files = Search_Files();
         string filename = files[(int)Session["currentID"]];
         string filepath = "~/Files/" + filename;
-        Download_File(filename, filepath);     
+        Download_File(filename, filepath);
     }
 
     public static void Download_File(string sFileName, string sFilePath)
