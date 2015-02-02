@@ -2,16 +2,21 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class _Default : System.Web.UI.Page
+public partial class _Default : Page
 {
+
+    private LinkButton[] _controls;
+    private Label[] _labels;
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        _controls = new[] { First, Prev, Next, Last, printButton, Download };
+        _labels = new[] {Title, SearchCount};
+
         if (Session["currentID"] == null)
         {
             Session["currentID"] = 0;
@@ -27,18 +32,6 @@ public partial class _Default : System.Web.UI.Page
         Session["fileSize"] = 0;
         Session["currentID"] = 0;
         Display_Text(0);
-
-        // Disable both Prev and First
-        First.CssClass = "btn disabled";
-        First.Enabled = false;
-        Prev.CssClass = "btn disabled";
-        Prev.Enabled = false;
-
-        // Re-enable Next and Last buttons
-        Next.CssClass = "btn";
-        Next.Enabled = true;
-        Last.CssClass = "btn";
-        Last.Enabled = true;
     }
 
     private String Read_File(String file_name)
@@ -129,14 +122,47 @@ public partial class _Default : System.Web.UI.Page
             Text.Text = "No files have the search items.";
             Title.Text = "";
             SearchCount.Text = "Result 0 of 0";
+
+            // Hide controls and labels
+            foreach (var ctx in _controls)
+            {
+                ctx.Visible = false;
+            }
+            foreach (var lbl in _labels)
+            {
+                lbl.Visible = false;
+            }
+
         }
         else
         {
             String t = Read_File(filesList[id]);
-            String i = "Result " + (id + 1).ToString() + " of " + s.ToString();
+            String i = "Result " + (id + 1) + " of " + s;
             Text.Text = t;
             Title.Text = filesList[id];
             SearchCount.Text = i;
+
+            // Show controls
+            foreach (var ctx in _controls)
+            {
+                ctx.Visible = true;
+            }
+            foreach (var lbl in _labels)
+            {
+                lbl.Visible = true;
+            }
+
+            // Disable both Prev and First
+            First.CssClass = "btn disabled";
+            First.Enabled = false;
+            Prev.CssClass = "btn disabled";
+            Prev.Enabled = false;
+
+            // Re-enable Next and Last buttons
+            Next.CssClass = "btn";
+            Next.Enabled = true;
+            Last.CssClass = "btn";
+            Last.Enabled = true;
         }
     }
 
@@ -272,7 +298,7 @@ public partial class _Default : System.Web.UI.Page
     {
         List<String> files = new List<String>();
         files = Search_Files();
-        if ((int)Session["currentID"] != 0)
+        if ((int)Session["fileSize"] != 0)
         {
             string filename = files[(int)Session["currentID"]];
             string filepath = "~/Files/" + filename;
@@ -286,7 +312,7 @@ public partial class _Default : System.Web.UI.Page
         HttpContext.Current.Response.ContentType = "APPLICATION/OCTET-STREAM";
         String Header = "Attachment; Filename=" + sFileName;
         HttpContext.Current.Response.AppendHeader("Content-Disposition", Header);
-        System.IO.FileInfo Dfile = new System.IO.FileInfo(HttpContext.Current.Server.MapPath(sFilePath));
+        FileInfo Dfile = new FileInfo(HttpContext.Current.Server.MapPath(sFilePath));
         HttpContext.Current.Response.WriteFile(Dfile.FullName);
         HttpContext.Current.Response.End();
     }

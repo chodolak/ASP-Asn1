@@ -27,34 +27,34 @@
             
                 <div class="row">
                     <%--Search--%>
-                    <div class="col l10">
-                        <asp:TextBox ID="SearchBox" runat="server" ></asp:TextBox>
+                    <div class="col s12 m10 l10">
+                        <asp:TextBox ID="SearchBox" runat="server" placeholder="Enter query here" ></asp:TextBox>
                     </div>
-                    <div class="col l2 right">
+                    <div class="col s12 m2 l2 right">
                         <asp:Button ID="SearchButton" runat="server" OnClick="SearchButton_Click" Text="Search" CssClass="btn" />
                     </div>
                 </div>
 
                 <div class="row">
                     <%--Document Navigation--%>
-                    <div class="col l12">
-                        <asp:LinkButton ID="First" runat="server" OnClick="First_Click" CssClass="btn" ToolTip="First"><i class="mdi-navigation-arrow-back"></i></asp:LinkButton>
-                        <asp:LinkButton ID="Prev" runat="server" OnClick="Prev_Click" CssClass="btn" ToolTip="Previous" ><i class="mdi-navigation-chevron-left"></i></asp:LinkButton>
-                        <asp:LinkButton ID="Next" runat="server" OnClick="Next_Click" CssClass="btn" ToolTip="Next" ><i class="mdi-navigation-chevron-right"></i></asp:LinkButton>
-                        <asp:LinkButton ID="Last" runat="server" OnClick="Last_Click" CssClass="btn" ToolTip="Last" ><i class="mdi-navigation-arrow-forward"></i></asp:LinkButton>
+                    <div class="col s12 m12 l12">
+                        <asp:LinkButton ID="First" runat="server" OnClick="First_Click" CssClass="btn" ToolTip="First" Visible="False" ><i class="mdi-navigation-arrow-back"></i></asp:LinkButton>
+                        <asp:LinkButton ID="Prev" runat="server" OnClick="Prev_Click" CssClass="btn" ToolTip="Previous" Visible="False" ><i class="mdi-navigation-chevron-left"></i></asp:LinkButton>
+                        <asp:LinkButton ID="Next" runat="server" OnClick="Next_Click" CssClass="btn" ToolTip="Next" Visible="False" ><i class="mdi-navigation-chevron-right"></i></asp:LinkButton>
+                        <asp:LinkButton ID="Last" runat="server" OnClick="Last_Click" CssClass="btn" ToolTip="Last" Visible="False" ><i class="mdi-navigation-arrow-forward"></i></asp:LinkButton>
                     </div>
                 </div>
             
                 <%--Document name and number of results--%>
                 <div class="row">
-                    <div class="col l10">
-                        <asp:Label ID="Title" runat="server"></asp:Label>
+                    <div class="col s12 m10 l10">
+                        <asp:Label ID="Title" runat="server" Visible="False" ></asp:Label>
                     </div>
-                    <div class="col l2 right right-align">
-                        <asp:Label ID="SearchCount" runat="server"></asp:Label>
+                    <div class="col s12 m2 l2 right right-align">
+                        <asp:Label ID="SearchCount" runat="server" Visible="False" ></asp:Label>
                     </div>
                 </div>
-                <div class="divider"></div>
+                <div id="divider" class="divider"></div>
 
             </div>
 
@@ -62,21 +62,23 @@
             
                 <%--Document Content--%>
                 <div class="row">
-                    <div class="col l12">
+                    <div class="col s12 m12 l12">
                         <asp:Label ID="Text" runat="server"></asp:Label>
                     </div>
                 </div>
             
                 <%--Print and Download--%>
                 <div class="row">
-                    <div class="col l12 right">
+                    <div class="col s12 m12 l12 right">
                         <asp:LinkButton ID="printButton" runat="server"
                             OnClientClick="javascript:window.print();"
                             OnClick="printButton_Click"
-                            CssClass="btn" ToolTip="Print"><i class="mdi-action-print"></i></asp:LinkButton>
+                            CssClass="btn" ToolTip="Print"
+                            Visible="False" ><i class="mdi-action-print"></i></asp:LinkButton>
                         <asp:LinkButton ID="Download" runat="server"
                             OnClick="Download_Click" 
-                            CssClass="btn" ToolTip="Save"><i class="mdi-content-save"></i></asp:LinkButton>
+                            CssClass="btn" ToolTip="Save"
+                            Visible="False" ><i class="mdi-content-save"></i></asp:LinkButton>
                     </div>
                 </div>
 
