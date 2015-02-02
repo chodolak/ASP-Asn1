@@ -47,10 +47,10 @@
             
                 <%--Document name and number of results--%>
                 <div class="row">
-                    <div class="col s12 m10 l10">
+                    <div class="col s12 m9 l9">
                         <asp:Label ID="Title" runat="server" Visible="False" ></asp:Label>
                     </div>
-                    <div class="col s12 m2 l2 right right-align">
+                    <div class="col s12 m3 l3 right right-align">
                         <asp:Label ID="SearchCount" runat="server" Visible="False" ></asp:Label>
                     </div>
                 </div>

@@ -32,6 +32,18 @@ public partial class _Default : Page
         Session["fileSize"] = 0;
         Session["currentID"] = 0;
         Display_Text(0);
+
+        // Disable both Prev and First
+        First.CssClass = "btn disabled";
+        First.Enabled = false;
+        Prev.CssClass = "btn disabled";
+        Prev.Enabled = false;
+
+        // Re-enable Next and Last buttons
+        Next.CssClass = "btn";
+        Next.Enabled = true;
+        Last.CssClass = "btn";
+        Last.Enabled = true;
     }
 
     private String Read_File(String file_name)
@@ -151,18 +163,6 @@ public partial class _Default : Page
             {
                 lbl.Visible = true;
             }
-
-            // Disable both Prev and First
-            First.CssClass = "btn disabled";
-            First.Enabled = false;
-            Prev.CssClass = "btn disabled";
-            Prev.Enabled = false;
-
-            // Re-enable Next and Last buttons
-            Next.CssClass = "btn";
-            Next.Enabled = true;
-            Last.CssClass = "btn";
-            Last.Enabled = true;
         }
     }
 
